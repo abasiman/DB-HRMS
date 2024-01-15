@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .payroll-container {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .payroll-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .payroll-item {
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 10px 0;
+            padding: 15px;
+        }
+
+        p {
+            margin: 8px 0;
+        }
+
+        p:first-child {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        p:nth-child(even) {
+            color: #27ae60;
+        }
+
+        p:nth-child(odd) {
+            color: #e74c3c;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        p:empty {
+            display: none;
+        }
+
+        p:before {
+            content: attr(data-label);
+            font-weight: bold;
+            margin-right: 5px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Performance List</h1>
+
+    {% if Performance_List %}
+    <div class="payroll-container">
+        <ul class="payroll-list">
+            {% for performance in Performance_List %}
+            <li class="payroll-item">
+                <p data-label="Performance ID:">{{ performance.performanceID }}</p>
+                <p data-label="Employee ID:">{{ performance.employeeID }}</p>
+                <p data-label="Date:">{{ performance.date }}</p>
+                <p data-label="reviewerID:">{{ performance.reviewerID }}</p>
+                <p data-label="rating:">{{ performance.rating }}</p>
+                <p data-label="comment:">{{ performance.comment }}</p>
+
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <p>No Performance found.</p>
+    {% endif %}
+
+</body>
+
+</html>

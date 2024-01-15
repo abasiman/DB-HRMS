@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Attendance</title>
+    <link rel="stylesheet" href="{% static 'update_payroll.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Update Attendance</h2>
+        <label for="attendID">Attendance ID:</label>
+        <input type="text" id="attendID" name="attendID" required>
+        <button onclick="searchAttendance()">Search</button>
+
+        <div id="payrollDetails" style="display: none;">
+            <!-- Payroll details will be dynamically populated here using JavaScript -->
+            <form id="updatePayrollForm">
+                {% csrf_token %}
+            <label for="employeeID">Employee ID:</label>
+            <input type="text" id="employeeID" name="employeeID" required>
+            
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            
+            <label for="checkInTime">Check-In Time:</label>
+            <input type="time" id="checkInTime" name="checkInTime" required>
+            
+            <label for="checkOutTime">Check-Out Time:</label>
+            <input type="time" id="checkOutTime" name="checkOutTime" required>
+
+
+
+                <button type="button" onclick="submitUpdateAttendance()">Update</button>
+            </form>
+        </div>
+    </div>
+
+
+
+<script>
+    var attendID; // Define payrollId at a broader scope
+
+    function searchAttendance() {
+        attendID = document.getElementById('attendID').value;
+
+        // Convert the payrollId to an integer
+        attendID = parseInt(attendID);
+
+        // Check if the conversion is successful
+        if (isNaN(attendID)) {
+            alert('Please enter a valid Attendance Code.');
+            return;
+        }
+
+    
+        fetch('/update_attendance/' + attendID + '/', {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Check for errors in the response
+                if (data.error) {
+                    alert(data.message);
+                } else {
+                    // Update form fields with data from the response
+                    document.getElementById('employeeID').value = data.employeeID;
+                    document.getElementById('date').value = data.date;
+                    document.getElementById('checkInTime').value = data.checkInTime;
+                    document.getElementById('checkOutTime').value = data.checkOutTime;
+
+
+                    // Show the payroll details section
+                    document.getElementById('payrollDetails').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while fetching payroll details.');
+            });
+    }
+
+    function submitUpdateAttendance() {
+        // Placeholder for form submission logic
+        var formData = {
+            employeeID: document.getElementById('employeeID').value,
+            date: document.getElementById('date').value,
+            checkInTime: document.getElementById('checkInTime').value,
+            checkOutTime: document.getElementById('checkOutTime').value,
+            
+
+        };
+
+        // Replace 'yourApiEndpoint/' with the actual API endpoint for updating payroll details
+        fetch('/update_attendance/' + attendID + '/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token in headers
+            },
+            body: JSON.stringify(formData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server after form submission
+                if (data.error) {
+                    alert(data.message);
+                } else {
+                    alert(data.message); // Display success message or handle accordingly
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while updating payroll details.');
+            });
+    }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Payroll Entry</title>
+    <link rel="stylesheet" href="{% static 'payroll_styles.css' %}">
+</head>
+
+<body>
+    <h2>Add Payroll Entry</h2>
+
+    <form id="payrollForm">
+        {% csrf_token %}
+        <label for="payrollID">Payroll ID:</label>
+        <input type="text" id ='payrollID' name="payrollID">
+        <label for="eid">Employee ID:</label>
+        <input type="text" id="eid" name="eid" required>
+
+        <label for="salary">Salary:</label>
+        <input type="text" id="salary" name="salary" required>
+
+        <label for="paymentFrequency">Payment Frequency:</label>
+        <input type="text" id="paymentFrequency" name="paymentFrequency" required>
+
+        <label for="taxInformation">Tax Information:</label>
+        <textarea id="taxInformation" name="taxInformation" required></textarea>
+
+        <label for="deductions">Deductions:</label>
+        <textarea id="deductions" name="deductions" required></textarea>
+
+        <button type="button" onclick="submitPayroll()">Submit</button>
+    </form>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        
+            function submitPayroll() {
+                var payrollID = document.getElementById("payrollID").value;
+                var eid = document.getElementById("eid").value;
+                var salary = document.getElementById("salary").value;
+                var paymentFrequency = document.getElementById("paymentFrequency").value;
+                var taxInformation = document.getElementById("taxInformation").value;
+                var deductions = document.getElementById("deductions").value;
+
+                if (!eid || !salary || !paymentFrequency || !taxInformation || !deductions) {
+                    alert("All fields are required!");
+                    return;
+                }
+
+                var formData = {
+                    payrollID: payrollID,
+                    eid: eid,
+                    salary: salary,
+                    paymentFrequency: paymentFrequency,
+                    taxInformation: taxInformation,
+                    deductions: deductions
+                };
+
+                fetch('/add_payroll/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Response from server:', data);
+
+                        var notification = document.getElementById("notification");
+                        if (notification) {
+                            notification.innerHTML = data.message;
+                            notification.style.backgroundColor = data.message.includes('successfully') ? '#4CAF50' : '#F44336';
+                            notification.style.display = "block";
+
+                            setTimeout(function () {
+                                notification.style.display = "none";
+                            }, 3000);
+                        } else {
+                            console.error('Notification element not found.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please check the console for details.');
+                    });
+            }
+
+    </script>
+    
+</body>
+
+</html>

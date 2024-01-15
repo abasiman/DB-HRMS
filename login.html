@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'signin.css' %}">
+</head>
+
+<body>
+    <div class="formdiv">
+        <form method="post" action="{% url 'login_verification' %}" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <h1>Log In</h1>
+            <label class="left-align" for="{{ form.username.id_for_label }}">User Name </label><br>
+            {{ form.username }}
+            <br>
+            <label class="left-align" for="{{ form.password.id_for_label }}">Password</label><br>
+            {{ form.password }}
+            <h6>Do not have an account? <a href="{% url 'registration_view' %}">Sign-up</a></h6>
+
+            <div class="submit">
+                <button type="submit">Sign in</button><br>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let username = document.getElementById("id_username").value;
+            const password = document.getElementById("id_password").value;
+
+            if (username == "" || password == "") {
+                alert("Both username and password are required!");
+                return false;
+            }
+            alert("success!");
+            return true;
+        }
+    </script>
+
+</body>
+
+</html>

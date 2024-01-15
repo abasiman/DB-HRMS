@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Leave Requests</title>
+    <link rel="stylesheet" href="{% static 'update_payroll.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Update Leave Requests</h2>
+        <label for="leaverecordID">Leave ID:</label>
+        <input type="text" id="leaverecordID" name="leaverecordID" required>
+        <button onclick="searchLeave()">Search</button>
+
+        <div id="payrollDetails" style="display: none;">
+            <!-- Payroll details will be dynamically populated here using JavaScript -->
+            <form id="updatePayrollForm">
+                {% csrf_token %}
+
+                <label for="employeeID">Employee ID:</label>
+                <input type="text" id="employeeID" name="employeeID" required>
+                 
+
+                <label for="start_date">Start Date:</label>
+                <input type="text" id="start_date" name="start_date" required>
+
+                <label for="end_date">End date:</label>
+                <input type="text" id="end_date" name="end_date" required>
+
+                <label for="leave">Leave Type:</label>
+                <select id="leaveType" name="leaveType" required>
+                    <option value="vacation">Vacation</option>
+                    <option value="sick">Sick Leave</option>
+                    <option value="personal">Personal Leave</option>
+                    <option value="bereavement">bereavement</option>
+                    <option value="other">Other</option>
+                
+                </select>
+
+
+
+                <button type="button" onclick="submitUpdateLeaveForm()">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+           var leaverecordID; // Define payrollId at a broader scope
+
+            function searchLeave() {
+                leaverecordID = document.getElementById('leaverecordID').value;
+
+                // Convert the payrollId to an integer
+                leaverecordID = parseInt(leaverecordID);
+
+                // Check if the conversion is successful
+                if (isNaN(leaverecordID)) {
+                    alert('Please enter a valid Leave Code.');
+                    return;
+                }
+
+
+                fetch('/update_Leave/' + leaverecordID + '/', {
+                    method: 'GET',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Check for errors in the response
+                        if (data.error) {
+                            alert(data.message);
+                        } else {
+                            // Update form fields with data from the response
+                            document.getElementById('employeeID').value = data.employeeID;
+                            document.getElementById('start_date').value = data.start_date;
+                            document.getElementById('end_date').value = data.end_date;
+                            document.getElementById('leaveType').value = data.leave;
+
+
+                            // Show the payroll details section
+                            document.getElementById('payrollDetails').style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while fetching Leave details.');
+                    });
+            }
+
+            function submitUpdateLeaveForm() {
+                // Placeholder for form submission logic
+                var formData = {
+                    employeeID: document.getElementById('employeeID').value,
+                    start_date: document.getElementById('start_date').value,
+                    end_date: document.getElementById('end_date').value,
+                    leave: document.getElementById('leaveType').value,
+
+
+                };
+
+                // Replace 'yourApiEndpoint/' with the actual API endpoint for updating payroll details
+                fetch('/update_Leave/' + leaverecordID + '/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token in headers
+                    },
+                    body: JSON.stringify(formData),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Handle the response from the server after form submission
+                        if (data.error) {
+                            alert(data.message);
+                        } else {
+                            alert(data.message); // Display success message or handle accordingly
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while updating Leave details.');
+                    });
+            }
+
+
+    </script>
+</body>
+
+</html>

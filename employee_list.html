@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .employee-container {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .employee-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .employee-item {
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 10px 0;
+            padding: 15px;
+        }
+
+        p {
+            margin: 8px 0;
+        }
+
+        p:first-child {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        p:nth-child(even) {
+            color: #27ae60;
+        }
+
+        p:nth-child(odd) {
+            color: #e74c3c;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        p:empty {
+            display: none;
+        }
+
+        p:before {
+            content: attr(data-label);
+            font-weight: bold;
+            margin-right: 5px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Employee List</h1>
+
+    {% if employee_list %}
+    <div class="employee-container">
+        <ul class="employee-list">
+            {% for employee in employee_list %}
+            <li class="employee-item">
+                <p data-label="Employee ID:">{{ employee.EmployeeID }}</p>
+                <p data-label="First Name:">{{ employee.FirstName }}</p>
+                <p data-label="Last Name:">{{ employee.LastName }}</p>
+                <p data-label="Contact Info:">{{ employee.ContactInfo }}</p>
+                <p data-label="Hire Date:">{{ employee.HireDate }}</p>
+                <p data-label="Department:">{{ employee.Department }}</p>
+                <p data-label="Job Title:">{{ employee.JobTitle }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <p>No employees found.</p>
+    {% endif %}
+
+</body>
+
+</html>

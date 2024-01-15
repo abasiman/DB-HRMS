@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRnexa Management System</title>
+    <style>
+          body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #202a53;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            min-width: 250px;
+            max-width: 250px;
+            background-color: #10191f;
+            color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            transition: width 0.3s;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-item {
+            margin-bottom: 10px;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            display: block;
+            padding: 10px;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        .menu-item a:hover {
+            background-color: #2980b9;
+        }
+
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+            }
+
+            .content {
+                width: 100%;
+            }
+        }
+        .employee-section {
+            margin-top: 20px;
+            padding-left: 10px;
+        }
+
+        .employee-section h3 {
+            color: #abd4ef;
+        }
+
+        .employee-menu-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .employee-menu-item:hover {
+            background-color: #2980b9;
+        }
+
+        .employee-menu-item img {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+    </style>
+
+    <script>
+        function loadContent(page) {
+            fetch(page)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('page-content').innerHTML = html;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+
+<body>
+    <li class="menu-item"><a href="#"onclick="loadContent('department/list/')"></a></li>
+    <script>
+        function loadContent(page) {
+            fetch(page)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('page-content').innerHTML = html;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadContent('department/list/');
+        });
+    </script>
+
+
+    <div class="sidebar" id="sidebar">
+        <h2>Dashboard Functions</h2>
+        <ul class="menu">
+            <div class="employee-section">
+                <h3>Department Section</h3>
+            
+                <div class="employee-menu">
+                    <!-- VIEW ALL EMPLOYEES -->
+                    <div class="employee-menu-item" onclick="loadContent('department/list/')">
+                        <img src="{% static 'view.png' %}" alt="View Departments">
+                        <a href="#">DEPARTMENTS</a>
+                    </div>
+            
+                    <!-- NEW EMPLOYEE -->
+                    <div class="employee-menu-item" onclick="loadContent('new_department.html')">
+                        <img src="{% static 'add.png' %}" alt="NEW DEPARTMENT">
+                        <a href="#">CREATE</a>
+                    </div>
+            
+            
+            
+            
+                    <!-- UPDATE EMPLOYEE -->
+                    <div class="employee-menu-item" onclick="loadContent('department_update.html')">
+                        <img src="{% static 'update.png' %}" alt="Update DEPARTMENTS">
+                        <a href="#">UPDATE</a>
+                    </div>
+            
+                    <!-- DELETE EMPLOYEE -->
+                    <div class="employee-menu-item" onclick="loadContent('remove_department.html')">
+                        <img src="{% static 'delete.png' %}" alt="DELETE DEPARTMENTS">
+                        <a href="#">DELETE</a>
+                    </div>
+            
+                    <!-- Add more employee menu items as needed -->
+                </div>
+        <div class="employee-section">
+            <h3>Employee Section</h3>
+        
+            <div class="employee-menu">
+                <!-- VIEW ALL EMPLOYEES -->
+                <div class="employee-menu-item" onclick="loadContent('employee/list/')">
+                    <img src="{% static 'view.png' %}" alt="View All Employees">
+                    <a href="#">Employees</a>
+                </div>
+        
+                <!-- NEW EMPLOYEE -->
+                <div class="employee-menu-item" onclick="loadContent('employeepage.html')">
+                    <img src="{% static 'add.png' %}" alt="New Employee">
+                    <a href="#">CREATE</a>
+                </div>
+        
+         
+                
+        
+                <!-- UPDATE EMPLOYEE -->
+                <div class="employee-menu-item" onclick="loadContent('update_employee.html')">
+                    <img src="{% static 'update.png' %}" alt="Update Employee">
+                    <a href="#">UPDATE</a>
+                </div>
+        
+                <!-- DELETE EMPLOYEE -->
+                <div class="employee-menu-item" onclick="loadContent('empl_removal.html')">
+                    <img src="{% static 'delete.png' %}" alt="Delete Employee">
+                    <a href="#">DELETE</a>
+                </div>
+        
+                <!-- Add more employee menu items as needed -->
+            </div>
+        </div>
+        <div class="employee-section">
+            <h3>Payroll Section</h3>
+            <div class="employee-menu">
+                <!-- ADD PAYROLL -->
+                <div class="employee-menu-item" onclick="loadContent('payroll/list/')">
+                    <img src="{% static 'view.png' %}" alt="View Payrolls">
+                    <a href="#">PAYROLLS</a>
+                </div>
+                <div class="employee-menu-item" onclick="loadContent('payroll_form.html')">
+                    <img src="{% static 'add.png' %}" alt="Add Payroll">
+                    <a href="#">CREATE</a>
+                </div>
+                <!-- UPDATE PAYROLL -->
+                <div class="employee-menu-item" onclick="loadContent('payroll_update.html')">
+                    <img src="{% static 'update.png' %}" alt="Update Payroll">
+                    <a href="#">UPDATE</a>
+                </div>
+                <!-- DELETE PAYROLL -->
+                <div class="employee-menu-item" onclick="loadContent('remove_payroll.html')">
+                    <img src="{% static 'delete.png' %}" alt="Delete Payroll">
+                    <a href="#">DELETE</a>
+                </div>
+                <!-- VIEW PAYROLLS -->
+               
+                <!-- Add more payroll menu items as needed -->
+            </div>
+        </div>
+
+
+        <!-- DEPARTMENT SECTION -->
+        <div class="employee-section">
+            <h3>Performance Section</h3>
+            <div class="employee-menu">
+                <!-- VIEW PERFORMANCE RECORDS -->
+                <div class="employee-menu-item" onclick="loadContent('Performance/List/')">
+                    <img src="{% static 'view.png' %}" alt="View Performance Records">
+                    <a href="#">PERFORMANCES</a>
+                </div>
+                <!-- ADD PERFORMANCE -->
+                <div class="employee-menu-item" onclick="loadContent('perfomance_table.html')">
+                    <img src="{% static 'add.png' %}" alt="Add Performance">
+                    <a href="#">CREATE</a>
+                </div>
+                
+                
+                <!-- UPDATE PERFORMANCE -->
+                <div class="employee-menu-item" onclick="loadContent('performance_update.html')">
+                    <img src="{% static 'update.png' %}" alt="Update Performance">
+                    <a href="#">UPDATE</a>
+                </div>
+                    <!-- DELETE PERFORMANCE -->
+                <div class="employee-menu-item" onclick="loadContent('remove_perfomance.html')">
+                    <img src="{% static 'delete.png' %}" alt="Delete Performance">
+                    <a href="#">DELETE</a>
+                </div>
+                
+                
+                <!-- Add more performance menu items as needed -->
+            </div>
+        </div>
+
+        <div class="employee-section">
+            <h3>Attendance Section</h3>
+            <div class="employee-menu">
+                <!-- RECORD ATTENDANCE -->
+                <div class="employee-menu-item" onclick="loadContent('attendance/list/')">
+                    <img src="{% static 'view.png' %}" alt="Attendance List">
+                    <a href="#">ATTENDANCES</a>
+                </div>
+                <div class="employee-menu-item" onclick="loadContent('Attendance.html')">
+                    <img src="{% static 'add.png' %}" alt="Record Attendance">
+                    <a href="#">CREATE</a>
+                </div>
+       
+
+                <!-- UPDATE ATTENDANCE -->
+                <div class="employee-menu-item" onclick="loadContent('attendance_update.html/')">
+                    <img src="{% static 'update.png' %}" alt="Update Attendance">
+                    <a href="#">UPDATE</a>
+                </div>
+                <div class="employee-menu-item" onclick="loadContent('attendance_removal.html/')">
+                    <img src="{% static 'delete.png' %}" alt="DELETEAttendance">
+                    <a href="#">DELETE</a>
+                </div>
+             
+            </div>
+        </div>
+        
+      
+
+
+            <div class="employee-section">
+                <h3>Leave Section</h3>
+                <div class="employee-menu">
+                    <!-- MANAGE LEAVE REQUESTS -->
+                    <div class="employee-menu-item" onclick="loadContent('Leave/list/')">
+                        <img src="{% static 'view.png' %}" alt="View Leave List">
+                        <a href="#">LEAVE</a>
+                    </div>
+                    <div class="employee-menu-item" onclick="loadContent('LeaveRequest.html')">
+                        <img src="{% static 'add.png' %}" alt="Manage Leave Requests">
+                        <a href="#">CREATE</a>
+                    </div>
+                    <!-- VIEW LEAVE LIST -->
+                    
+                    <!-- UPDATE LEAVE -->
+                    <div class="employee-menu-item" onclick="loadContent('Leave_update.html')">
+                        <img src="{% static 'update.png' %}" alt="Update Leave">
+                        <a href="#">UPDATE</a>
+                    </div>
+                    <!-- DELETE LEAVE -->
+                    <div class="employee-menu-item" onclick="loadContent('remove_leave.html')">
+                        <img src="{% static 'delete.png' %}" alt="Delete Leave">
+                        <a href="#">Delete</a>
+                    </div>
+                </div>
+            </div>
+            
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <h1>Welcome To HRnexa System!</h1>
+            <h2>Dashboard</h2>
+        </div>
+
+        <div id="page-content"></div>
+    </div>
+   <script>
+     var payrollId; 
+
+        function searchPayroll() {
+            payrollId = document.getElementById('payrollId').value;
+
+           
+            payrollId = parseInt(payrollId);
+
+            
+            if (isNaN(payrollId)) {
+                alert('Please enter a valid payroll ID.');
+                return;
+            }
+
+            fetch('/update_payroll/' + payrollId + '/', {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                  
+                    if (data.error) {
+                        alert(data.message);
+                    } else {
+                        
+                        document.getElementById('eid').value = data.eid;
+                        document.getElementById('salary').value = data.salary;
+                        document.getElementById('paymentFrequency').value = data.paymentFrequency;
+                        document.getElementById('taxInformation').value = data.taxInformation;
+                        document.getElementById('deductions').value = data.deductions;
+
+                        
+                        document.getElementById('payrollDetails').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching payroll details.');
+                });
+        }
+
+        function submitUpdatePayrollForm() {
+            // Placeholder for form submission logic
+            var formData = {
+                eid: document.getElementById('eid').value,
+                salary: document.getElementById('salary').value,
+                paymentFrequency: document.getElementById('paymentFrequency').value,
+                taxInformation: document.getElementById('taxInformation').value,
+                deductions: document.getElementById('deductions').value,
+            };
+
+            fetch('/update_payroll/' + payrollId + '/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: JSON.stringify(formData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    
+                    if (data.error) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message); 
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating payroll details.');
+                });
+        }
+        
+            function submitPayroll() {
+                var payrollID = document.getElementById("payrollID").value;
+                var eid = document.getElementById("eid").value;
+                var salary = document.getElementById("salary").value;
+                var paymentFrequency = document.getElementById("paymentFrequency").value;
+                var taxInformation = document.getElementById("taxInformation").value;
+                var deductions = document.getElementById("deductions").value;
+
+                if (!eid || !salary || !paymentFrequency || !taxInformation || !deductions) {
+                    alert("All fields are required!");
+                    return;
+                }
+
+                var formData = {
+                    payrollID: payrollID,
+                    eid: eid,
+                    salary: salary,
+                    paymentFrequency: paymentFrequency,
+                    taxInformation: taxInformation,
+                    deductions: deductions
+                };
+
+                fetch('/add_payroll/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Response from server:', data);
+
+                        var notification = document.getElementById("notification");
+                        if (notification) {
+                            notification.innerHTML = data.message;
+                            notification.style.backgroundColor = data.message.includes('successfully') ? '#4CAF50' : '#F44336';
+                            notification.style.display = "block";
+
+                            setTimeout(function () {
+                                notification.style.display = "none";
+                            }, 3000);
+                        } else {
+                            console.error('Notification element not found.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please check the console for details.');
+                    });
+            }
+
+
+
+
+ /* PERFORMANCE SECTION */
+    var performanceID; 
+
+        function searchPerformance() {
+            performanceID = document.getElementById('performanceID').value;
+
+     
+            performanceID = parseInt(performanceID);
+
+            
+            if (isNaN(performanceID)) {
+                alert('Please enter a valid performance ID.');
+                return;
+            }
+
+            
+            fetch('/update_performance/' + performanceID + '/', {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    
+                    if (data.error) {
+                        alert(data.message);
+                    } else {
+                        
+                        document.getElementById('employeeID').value = data.employeeID;
+                        document.getElementById('date').value = data.date;
+                        document.getElementById('reviewerID').value = data.reviewerID;
+                        document.getElementById('rating').value = data.rating;
+                        document.getElementById('comment').value = data.comment;
+
+                        document.getElementById('performanceDetails').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching performance details.');
+                });
+        }
+
+        function submitUpdatePerformanceForm() {
+           
+            var formData = {
+                employeeID: document.getElementById('employeeID').value,
+                Date: document.getElementById('date').value,
+                reviewerID: document.getElementById('reviewerID').value,
+                rating: document.getElementById('rating').value,
+                comment: document.getElementById('comment').value,
+            };
+
+            // Replace 'yourApiEndpoint/' with the actual API endpoint for updating payroll details
+            fetch('/update_performance/' + performanceID + '/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+                body: JSON.stringify(formData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message); 
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating Performance details.');
+                });
+        }
+        function submitDepartment() {
+                var departmentCode = document.getElementById("departmentCode").value;
+                var departmentName = document.getElementById("departmentName").value;
+                
+                var departmentManager = document.getElementById("departmentManager").value;
+                var KPI = document.getElementById("KPI").value;
+
+
+                if (!departmentName || !departmentCode || !departmentManager || !KPI) {
+                    alert("All fields are required!");
+                    return;
+                }
+
+                var formData = {
+                    departmentCode: departmentCode,
+                    departmentName: departmentName,
+                    
+                    departmentManager: departmentManager,
+                    KPI: KPI,
+
+                };
+
+                fetch('/add_department/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Response from server:', data);
+
+                        var notification = document.getElementById("notification");
+                        if (notification) {
+                            notification.innerHTML = data.message;
+                            notification.style.backgroundColor = data.message.includes('successfully') ? '#4CAF50' : '#F44336';
+                            notification.style.display = "block";
+
+                            setTimeout(function () {
+                                notification.style.display = "none";
+                            }, 3000);
+                        } else {
+                            console.error('Notification element not found.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please check the console for details.');
+                    });
+            }
+             var departmentCode; // Define payrollId at a broader scope
+
+                function searchDepartment() {
+                    departmentCode = document.getElementById('departmentCode').value;
+
+                    // Convert the payrollId to an integer
+                    departmentCode = parseInt(departmentCode);
+
+                    if (isNaN(departmentCode)) {
+                        alert('Please enter a valid department Code.');
+                        return;
+                    }
+
+                 
+                    fetch('/update_department/' + departmentCode + '/', {
+                        method: 'GET',
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Check for errors in the response
+                            if (data.error) {
+                                alert(data.message);
+                            } else {
+                                
+                                document.getElementById('departmentName').value = data.departmentName;
+                                document.getElementById('departmentManager').value = data.departmentManager;
+                                document.getElementById('KPI').value = data.KPI;
+
+
+                               
+                                document.getElementById('payrollDetails').style.display = 'block';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while fetching department details.');
+                        });
+                }
+
+                function submitUpdateDepartment() {
+                   
+                    var formData = {
+                        departmentName: document.getElementById('departmentName').value,
+                        departmentManager: document.getElementById('departmentManager').value,
+                        KPI: document.getElementById('KPI').value,
+
+                    };
+
+                    
+                    fetch('/update_department/' + departmentCode + '/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token in headers
+                        },
+                        body: JSON.stringify(formData),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the response from the server after form submission
+                            if (data.error) {
+                                alert(data.message);
+                            } else {
+                                alert(data.message); 
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while updating department details.');
+                        });
+                }
+                 var leaverecordID; // Define payrollId at a broader scope
+
+                    function searchLeave() {
+                        leaverecordID = document.getElementById('leaverecordID').value;
+
+                        // Convert the payrollId to an integer
+                        leaverecordID = parseInt(leaverecordID);
+
+                        // Check if the conversion is successful
+                        if (isNaN(leaverecordID)) {
+                            alert('Please enter a valid Leave Code.');
+                            return;
+                        }
+
+
+                        fetch('/update_Leave/' + leaverecordID + '/', {
+                            method: 'GET',
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                // Check for errors in the response
+                                if (data.error) {
+                                    alert(data.message);
+                                } else {
+                                    // Update form fields with data from the response
+                                    document.getElementById('employeeID').value = data.employeeID;
+                                    document.getElementById('start_date').value = data.start_date;
+                                    document.getElementById('end_date').value = data.end_date;
+                                    document.getElementById('leaveType').value = data.leave;
+
+
+                                    // Show the payroll details section
+                                    document.getElementById('payrollDetails').style.display = 'block';
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('An error occurred while fetching Leave details.');
+                            });
+                    }
+
+                    function submitUpdateLeaveForm() {
+                        // Placeholder for form submission logic
+                        var formData = {
+                            employeeID: document.getElementById('employeeID').value,
+                            start_date: document.getElementById('start_date').value,
+                            end_date: document.getElementById('end_date').value,
+                            leave: document.getElementById('leaveType').value,
+
+
+                        };
+
+                        // Replace 'yourApiEndpoint/' with the actual API endpoint for updating payroll details
+                        fetch('/update_Leave/' + leaverecordID + '/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token in headers
+                            },
+                            body: JSON.stringify(formData),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                // Handle the response from the server after form submission
+                                if (data.error) {
+                                    alert(data.message);
+                                } else {
+                                    alert(data.message); // Display success message or handle accordingly
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('An error occurred while updating Leave details.');
+                            });
+                    }
+                
+
+
+
+        /* RECORD ATTENDANCE */
+        function recordattendance() {
+                console.log('recordattendance function called');
+
+                var employeeID = document.getElementById("employeeID").value;
+                var attendID = document.getElementById("attendID").value;
+                var date = document.getElementById("date").value;
+                var checkInTime = document.getElementById("checkInTime").value;
+                var checkOutTime = document.getElementById("checkOutTime").value;
+
+                if (!employeeID || !attendID || !date || !checkInTime || !checkOutTime) {
+                    alert("All fields are required!");
+                    return;
+                }
+
+                var formData = {
+                    employeeID: employeeID,
+                    attendID: attendID,
+                    date: date,
+                    checkInTime: checkInTime,
+                    checkOutTime: checkOutTime
+                };
+
+                fetch('/recordAttendance/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Response from server:', data);
+                        var notification = document.getElementById("notification");
+                        notification.innerHTML = data.message;
+                        notification.style.display = "block";
+                        setTimeout(function () {
+                            notification.style.display = "none";
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please check the console for details.');
+                    });
+            }
+
+
+               
+                function searchEmployee() {
+                    tuid = document.getElementById('tuid').value;
+
+                    // Convert the payrollId to an integer
+                    tuid = parseInt(tuid);
+
+                    // Check if the conversion is successful
+                    if (isNaN(tuid)) {
+                        alert('Please enter a valid Employee ID.');
+                        return;
+                    }
+
+                }
+                  var tuid; // Define payrollId at a broader scope
+
+                    function searchEmployee() {
+                        tuid = document.getElementById('tuid').value;
+
+                        // Convert the payrollId to an integer
+                        tuid = parseInt(tuid);
+
+                        // Check if the conversion is successful
+                        if (isNaN(tuid)) {
+                            alert('Please enter a valid Employee ID.');
+                            return;
+                        }
+
+
+                        fetch('/update_employee/' + tuid + '/', {
+                            method: 'GET',
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+
+                                if (data.error) {
+                                    alert(data.message);
+                                } else {
+                                    // Update form fields with data from the response
+                                    document.getElementById('tfname').value = data.tfname;
+                                    document.getElementById('tlname').value = data.tlname;
+                                    document.getElementById('tucontact').value = data.tucontact;
+                                    document.getElementById('tudate').value = data.tudate;
+                                    document.getElementById('tudepartment').value = data.tudepartment;
+                                    document.getElementById('tujob').value = data.tujob;
+
+                                    // Show the payroll details section
+                                    document.getElementById('payrollDetails').style.display = 'block';
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('An error occurred while fetching Employee details.');
+                            });
+                    }
+
+                    function submitUpdateEmployee() {
+                        // Placeholder for form submission logic
+                        var formData = {
+                            tfname: document.getElementById('tfname').value,
+                            tlname: document.getElementById('tlname').value,
+                            tucontact: document.getElementById('tucontact').value,
+                            tudate: document.getElementById('tudate').value,
+                            tudepartment: document.getElementById('tudepartment').value,
+                            tujob: document.getElementById('tujob').value,
+                        };
+
+                        // Replace 'yourApiEndpoint/' with the actual API endpoint for updating payroll details
+                        fetch('/update_employee/' + tuid + '/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token in headers
+                            },
+                            body: JSON.stringify(formData),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                // Handle the response from the server after form submission
+                                if (data.error) {
+                                    alert(data.message);
+                                } else {
+                                    alert(data.message); // Display success message or handle accordingly
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('An error occurred while updating Employee details.');
+                            });
+                    }
+
+
+                    /* ATTENDANCE */
+
+                        var attendID; // Define payrollId at a broader scope
+
+                            function searchAttendance() {
+                                attendID = document.getElementById('attendID').value;
+
+                                // Convert the payrollId to an integer
+                                attendID = parseInt(attendID);
+
+                                // Check if the conversion is successful
+                                if (isNaN(attendID)) {
+                                    alert('Please enter a valid Attendance Code.');
+                                    return;
+                                }
+
+
+                                fetch('/update_attendance/' + attendID + '/', {
+                                    method: 'GET',
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        // Check for errors in the response
+                                        if (data.error) {
+                                            alert(data.message);
+                                        } else {
+                                            // Update form fields with data from the response
+                                            document.getElementById('employeeID').value = data.employeeID;
+                                            document.getElementById('date').value = data.date;
+                                            document.getElementById('checkInTime').value = data.checkInTime;
+                                            document.getElementById('checkOutTime').value = data.checkOutTime;
+
+
+                                            // Show the payroll details section
+                                            document.getElementById('payrollDetails').style.display = 'block';
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        alert('An error occurred while fetching Attendance details.');
+                                    });
+                            }
+
+                            function submitUpdateAttendance() {
+                                // Placeholder for form submission logic
+                                var formData = {
+                                    employeeID: document.getElementById('employeeID').value,
+                                    date: document.getElementById('date').value,
+                                    checkInTime: document.getElementById('checkInTime').value,
+                                    checkOutTime: document.getElementById('checkOutTime').value,
+
+
+                                };
+
+                                // Replace 'yourApiEndpoint/' with the actual API endpoint for updating payroll details
+                                fetch('/update_attendance/' + attendID + '/', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token in headers
+                                    },
+                                    body: JSON.stringify(formData),
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        // Handle the response from the server after form submission
+                                        if (data.error) {
+                                            alert(data.message);
+                                        } else {
+                                            alert(data.message); // Display success message or handle accordingly
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        alert('An error occurred while updating Attendance details.');
+                                    });
+                            }
+
+
+</script>
+
+    <!-- Include your other scripts here -->
+    <script src="{% static 'script.js' %}"></script>
+    <script src="{% static 'employee_script.js' %}"></script>
+    <script src=/hrmsApp/templates/static/attendance_script.js></script>
+    <script src=/hrmsApp/templates/static/department_script.js></script>
+    <script src="{% static 'perform_script.js' %}"></script>
+
+    <!-- script src="{% static 'department_script.js' %}"></script> -->
+    
+ 
+
+
+</body>
+
+</html>

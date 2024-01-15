@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Table</title>
+    <style>
+        /* Your existing styles remain unchanged */
+
+        .form-container {
+            margin-top: 20px;
+            max-width: 400px;
+            background-color: #e7dcdc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h3 {
+            color: #333;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #notification {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    
+</head>
+
+<body>
+
+    <h2>Attendance Table</h2>
+
+    <table>
+        <!-- Your table structure remains unchanged -->
+    </table>
+
+    <div class="form-container">
+        <h3>Record Attendance</h3>
+        <form id="attendanceForm">
+            {% csrf_token %}
+            <label for="employeeID">Employee ID:</label>
+            <input type="text" id="employeeID" name="employeeID" required>
+
+            <label for="attendID"> Attendance ID:</label>
+            <input type="text" id="attendID" name="attendID" required>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="checkInTime">Check-In Time:</label>
+            <input type="time" id="checkInTime" name="checkInTime" required>
+
+            <label for="checkOutTime">Check-Out Time:</label>
+            <input type="time" id="checkOutTime" name="checkOutTime" required>
+
+            <button type="button" class="submit-button" onclick="recordattendance()">Submit</button>
+        </form>
+    </div>
+
+    <div id="notification"></div>
+
+    <script>
+    function recordattendance() {
+            console.log('recordattendance function called');
+
+            var employeeID = document.getElementById("employeeID").value;
+            var attendID = document.getElementById("attendID").value;
+            var date = document.getElementById("date").value;
+            var checkInTime = document.getElementById("checkInTime").value;
+            var checkOutTime = document.getElementById("checkOutTime").value;
+
+            if (!employeeID || !attendID || !date || !checkInTime || !checkOutTime) {
+                alert("All fields are required!");
+                return;
+            }
+
+            var formData = {
+                employeeID: employeeID,
+                attendID: attendID,
+                date: date,
+                checkInTime: checkInTime,
+                checkOutTime: checkOutTime
+            };
+
+            fetch('/recordAttendance/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response from server:', data);
+                    var notification = document.getElementById("notification");
+                    notification.innerHTML = data.message;
+                    notification.style.display = "block";
+                    setTimeout(function () {
+                        notification.style.display = "none";
+                    }, 3000);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please check the console for details.');
+                });
+        }
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Payroll</title>
+    <link rel="stylesheet" href="{% static 'update_payroll.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Update Payroll</h2>
+        <label for="tuid">EMPLOYEE ID:</label>
+        <input type="text" id="tuid" name="tuid" required>
+        <button onclick="searchEmployee()">Search</button>
+
+        <div id="payrollDetails" style="display: none;">
+            <!-- Payroll details will be dynamically populated here using JavaScript -->
+            <form id="updatePayrollForm">
+                {% csrf_token %}
+                <label for="tfname">First Name:</label>
+                <input type="text" id="tfname" name="tfname" required>
+                
+                <label for="tlname">Last Name:</label>
+                <input type="text" id="tlname" name="tlname" required>
+                
+                <label for="tucontact">Contact Info:</label>
+                <input type="text" id="tucontact" name="tucontact" required>
+                
+                <label for="tudate">Hire Date:</label>
+                <input type="date" id="tudate" name="tudate" required>
+                
+                <label for="tudepartment">Department:</label>
+                <input type="text" id="tudepartment" name="tudepartment" required>
+                
+                <label for="tujob">Job Title:</label>
+                <input type="text" id="tujob" name="tujob" required>
+
+                <button type="button" onclick="submitUpdateEmployee()">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var tuid; // Define payrollId at a broader scope
+
+            function searchEmployee() {
+                tuid = document.getElementById('tuid').value;
+
+                // Convert the payrollId to an integer
+                tuid = parseInt(tuid);
+
+                // Check if the conversion is successful
+                if (isNaN(tuid)) {
+                    alert('Please enter a valid Employee ID.');
+                    return;
+                }
+
+
+                fetch('/update_employee/' + tuid + '/', {
+                    method: 'GET',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        
+                        if (data.error) {
+                            alert(data.message);
+                        } else {
+                            // Update form fields with data from the response
+                            document.getElementById('tfname').value = data.tfname;
+                            document.getElementById('tlname').value = data.tlname;
+                            document.getElementById('tucontact').value = data.tucontact;
+                            document.getElementById('tudate').value = data.tudate;
+                            document.getElementById('tudepartment').value = data.tudepartment;
+                            document.getElementById('tujob').value = data.tujob;
+
+                            // Show the payroll details section
+                            document.getElementById('payrollDetails').style.display = 'block';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while fetching Employee details.');
+                    });
+            }
+
+            function submitUpdateEmployee() {
+                // Placeholder for form submission logic
+                var formData = {
+                    tfname: document.getElementById('tfname').value,
+                    tlname: document.getElementById('tlname').value,
+                    tucontact: document.getElementById('tucontact').value,
+                    tudate: document.getElementById('tudate').value,
+                    tudepartment: document.getElementById('tudepartment').value,
+                    tujob: document.getElementById('tujob').value,
+                };
+
+                // Replace 'yourApiEndpoint/' with the actual API endpoint for updating payroll details
+                fetch('/update_employee/' + tuid + '/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token in headers
+                    },
+                    body: JSON.stringify(formData),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Handle the response from the server after form submission
+                        if (data.error) {
+                            alert(data.message);
+                        } else {
+                            alert(data.message); // Display success message or handle accordingly
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while updating Employee details.');
+                    });
+            }
+
+    </script>
+</body>
+
+</html>

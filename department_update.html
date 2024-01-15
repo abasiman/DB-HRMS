@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Department</title>
+    <link rel="stylesheet" href="{% static 'update_payroll.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Update Department</h2>
+        <label for="departmentCode">Department ID:</label>
+        <input type="text" id="departmentCode" name="departmentCode" required>
+        <button onclick="searchDepartment()">Search</button>
+
+        <div id="payrollDetails" style="display: none;">
+            <!-- Payroll details will be dynamically populated here using JavaScript -->
+            <form id="updatePayrollForm">
+                {% csrf_token %}
+                <label for="departmentName">Department Name:</label>
+                <input type="text" id="departmentName" name="departmentName" required>
+
+                <label for="departmentCode">Department Code:</label>
+                <input type="text" id="departmentCode" name="departmentCode" required>
+
+                <label for="departmentManager">Department Manager:</label>
+                <input type="text" id="departmentManager" name="departmentManager" required>
+
+                <label for="KPI">Key Performance Indicator:</label>
+                <input type="text" id="KPI" name="KPI" required>
+
+
+                <button type="button" onclick="submitUpdateDepartment()">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var departmentCode; // Define payrollId at a broader scope
+
+        function searchDepartment() {
+            departmentCode = document.getElementById('departmentCode').value;
+
+            // Convert the payrollId to an integer
+            departmentCode = parseInt(departmentCode);
+
+            // Check if the conversion is successful
+            if (isNaN(departmentCode)) {
+                alert('Please enter a valid department Code.');
+                return;
+            }
+
+            // Assuming you have a function to make an asynchronous request, e.g., fetch or XMLHttpRequest
+            // Replace 'yourApiEndpoint/' with the actual API endpoint for fetching payroll details
+            fetch('/update_department/' + departmentCode + '/', {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Check for errors in the response
+                    if (data.error) {
+                        alert(data.message);
+                    } else {
+                        // Update form fields with data from the response
+                        document.getElementById('departmentName').value = data.departmentName;
+                        document.getElementById('departmentManager').value = data.departmentManager;
+                        document.getElementById('KPI').value = data.KPI;
+                    
+
+                        // Show the payroll details section
+                        document.getElementById('payrollDetails').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching payroll details.');
+                });
+        }
+
+        function submitUpdateDepartment() {
+            // Placeholder for form submission logic
+            var formData = {
+                departmentName: document.getElementById('departmentName').value,
+                departmentManager: document.getElementById('departmentManager').value,
+                KPI: document.getElementById('KPI').value,
+                
+            };
+
+            // Replace 'yourApiEndpoint/' with the actual API endpoint for updating payroll details
+            fetch('/update_department/' + departmentCode + '/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken'), // Include CSRF token in headers
+                },
+                body: JSON.stringify(formData),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response from the server after form submission
+                    if (data.error) {
+                        alert(data.message);
+                    } else {
+                        alert(data.message); // Display success message or handle accordingly
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating payroll details.');
+                });
+        }
+
+    </script>
+</body>
+
+</html>

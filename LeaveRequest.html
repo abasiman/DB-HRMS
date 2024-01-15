@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request Form</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Leave Request Form</h2>
+        <form id="leaveRequestForm">
+            <label for="leaverecordID">Leave Record ID:</label>
+            <input type="text" id="leaverecordID" name="leaverecordID" required>
+
+            <label for="employeeID">Employee ID:</label>
+            <input type="text" id="employeeID" name="employeeID" required>
+
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" required>
+
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" required>
+
+            <label for="leaveType">Leave Type:</label>
+            <select id="leaveType" name="leaveType" required>
+                <option value="vacation">Vacation</option>
+                <option value="sick">Sick Leave</option>
+                <option value="personal">Personal Leave</option>
+                <option value="bereavement">bereavement</option>
+                <option value="other">Other</option>
+                
+            </select>
+
+            <button type="button" onclick="submitLeaveRequest()">Submit</button>
+        </form>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+
+</html>

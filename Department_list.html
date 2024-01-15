@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #dcdde8;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .payroll-container {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        h1 {
+            color: #000000;
+        }
+
+        .payroll-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .dp{
+            color: #e74c3c;
+        }
+
+        .payroll-item {
+            background-color: #97a0f9b0;
+            box-shadow: 0 4px 8px rgba(126, 36, 36, 0.1);
+            border-radius: 10px;
+            margin: 10px 0;
+            padding: 10px 20px;
+        }
+
+        p {
+            margin: 8px 0;
+        }
+
+        p:first-child {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        p:nth-child(even) {
+            color: #27ae60;
+        }
+
+        p:nth-child(odd) {
+            color: #e74c3c;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        p:empty {
+            display: none;
+        }
+
+        p:before {
+            content: attr(data-label);
+            font-weight: bold;
+            margin-right: 5px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dp">
+    <h2>DEPARTMENTS</h2>
+    </div>
+    
+
+    {% if Department_list %}
+    <div class="payroll-container">
+        <ul class="payroll-list">
+            {% for department in Department_list %}
+            <li class="payroll-item">
+                <p data-label="Department Name:">{{ department.departmentName }}</p>
+                <p data-label="Department Code:">{{ department.departmentCode }}</p>
+                <p data-label="Department Manager:">{{ department.departmentManager }}</p>
+                <p data-label="KPI:">{{ department.KPI }}</p>
+              
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <p>No Department found.</p>
+    {% endif %}
+
+</body>
+
+</html>

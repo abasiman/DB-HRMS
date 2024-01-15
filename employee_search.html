@@ -1,0 +1,35 @@
+<!-- employee_search_results.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Employee Search Results</title>
+</head>
+
+<body>
+    <h1>Employee Search</h1>
+
+    <form method="GET" action="{% url 'employee_search_results' %}">
+        {% csrf_token %}
+        <label for="employee_id">Enter Employee ID:</label>
+        <input type="text" id="employee_id" name="employee_id" value="{{ employee_id }}" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if employee %}
+    <h2>Employee Information:</h2>
+    <p>ID: {{ employee.EmployeeID }}</p>
+    <p>Name: {{ employee.EmployeeName }}</p>
+    <p>Title: {{ employee.EmployeeTitle }}</p>
+    <!-- Add other fields as needed -->
+
+    {% elif error_message %}
+    <p>{{ error_message }}</p>
+
+    {% endif %}
+
+    <a href="{% url 'employee_search' %}">Back to Search</a>
+</body>
+
+</html>

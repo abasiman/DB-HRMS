@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+<head>
+    <title>Department Removal</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message-container {
+            margin-top: 20px;
+            padding: 15px;
+            display: none;
+            border-radius: 5px;
+        }
+
+        .success-message {
+            color: #4caf50;
+        }
+
+        .error-message {
+            color: #f44336;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var removeForm = document.getElementById('removeForm');
+            var messageContainer = document.getElementById('messageContainer');
+
+            removeForm.addEventListener('submit', function (event) {
+              
+                if (confirmed) {
+                    // Continue with form submission if confirmed
+                    fetch("{% url 'department_removal' %}", {
+                        method: 'POST',
+                        body: new FormData(event.target),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                // Employee successfully removed
+                                messageContainer.innerHTML = '<p class="success-message">Department successfully deleted</p>';
+                                messageContainer.style.display = 'block';
+                               
+                                document.getElementById('departmentCode').value = '';
+                            } else if (data.error) {
+                                
+                                messageContainer.innerHTML = '<p class="error-message">' + data.error + '</p>';
+                                messageContainer.style.display = 'block';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Enter Department ID to Remove:</h2>
+
+        <form id="removeForm" method="post" action="{% url 'department_removal' %}">
+            {% csrf_token %}
+            <label for="departmentCode">DEPARTMENT CODE:</label>
+            <input type="text" id="departmentCode" name="departmentCode" required>
+            <button type="submit">DELETE DEPARTMENT</button>
+        </form>
+
+        <div id="messageContainer" class="message-container"></div>
+
+    </div>
+
+</body>
+
+</html>

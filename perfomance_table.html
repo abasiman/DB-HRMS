@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Record Form</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Performance Record Form</h2>
+        <form id="performanceForm">
+            {% csrf_token %}
+            <label for="performanceID">Performance ID:</label>
+            <input type="text" id="performanceID" name="performanceID" required>
+            <label for="employeeID">Employee ID:</label>
+            <input type="text" id="employeeID" name="employeeID" required>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="reviewerID">Reviewer ID:</label>
+            <input type="text" id="reviewerID" name="reviewerID" required>
+
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating" required>
+                <option value="1">Poor</option>
+                <option value="2">Below Expectations</option>
+                <option value="3">Meets Expectations</option>
+                <option value="4">Exceeds Expectations</option>
+                <option value="5">Outstanding</option>
+            </select>
+
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" required></textarea>
+
+            <button type="button" onclick="submitPerformanceRecord()">Submit</button>
+        </form>
+        <div id="notification" class="notification"></div>
+    </div>
+
+    <script src="{% static 'perform_script.js' %}"></script>
+</body>
+
+</html>

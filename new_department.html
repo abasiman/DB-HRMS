@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW DEPARTMENT ENTRY</title>
+<style>
+        
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    text-align: center; 
+    background-color: #f4f4f4;
+}
+
+h2 {
+    color: #333;
+}
+
+form {
+    max-width: 600px;
+    width: 80%; 
+    max-height: 700px; 
+    overflow-y: auto;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #5d7286; 
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
+}
+
+
+form {
+    display: inline-block;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    color: #333; 
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007bff; 
+    color: #fff; 
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.notification {
+    display: none;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+    </style>
+   
+</head>
+
+<body>
+    <h2>New Department</h2>
+    <form id="departmentForm">
+        {% csrf_token %}
+        <label for="departmentCode">Department Code:</label>
+        <input type="text" id="departmentCode" name="departmentCode" required>
+
+        <label for="departmentName">Department Name:</label>
+        <input type="text" id="departmentName" name="departmentName" required>
+
+        
+
+        <label for="departmentManager">Department Manager:</label>
+        <input type="text" id="departmentManager" name="departmentManager" required>
+
+        <label for="KPI">KPI:</label>
+        <input type="text" id="KPI" name="KPI" required>
+        </div>
+
+
+        <button type="button" onclick="submitDepartment()">SAVE</button>
+    </form>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        function submitDepartment() {
+                var departmentCode = document.getElementById("departmentCode").value;
+                var departmentName = document.getElementById("departmentName").value;
+                
+                var departmentManager = document.getElementById("departmentManager").value;
+                var KPI = document.getElementById("KPI").value;
+
+
+                if (!departmentName || !departmentCode || !departmentManager || !KPI) {
+                    alert("All fields are required!");
+                    return;
+                }
+
+                var formData = {
+                    departmentCode: departmentCode,
+                    departmentName: departmentName,
+                    departmentManager: departmentManager,
+                    KPI: KPI,
+
+                };
+
+                fetch('/add_department/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Response from server:', data);
+
+                        var notification = document.getElementById("notification");
+                        if (notification) {
+                            notification.innerHTML = data.message;
+                            notification.style.backgroundColor = data.message.includes('successfully') ? '#4CAF50' : '#F44336';
+                            notification.style.display = "block";
+
+                            setTimeout(function () {
+                                notification.style.display = "none";
+                            }, 3000);
+                        } else {
+                            console.error('Notification element not found.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred. Please check the console for details.');
+                    });
+            }
+
+    </script>
+
+</body>
+
+</html>

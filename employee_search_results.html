@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Search Results</title>
+</head>
+
+<body>
+
+    {% if employee %}
+    <h1>Employee Details</h1>
+    <p>Employee ID: {{ employee.EmployeeID }}</p>
+    <p>First Name: {{ employee.FirstName }}</p>
+    <p>Last Name: {{ employee.LastName }}</p>
+    <p>Contact Info: {{ employee.ContactInfo }}</p>
+    <p>Hire Date: {{ employee.HireDate }}</p>
+    <p>Department: {{ employee.Department }}</p>
+    <p>Job Title: {{ employee.JobTitle }}</p>
+    {% else %}
+    <p>No employee found with the specified ID.</p>
+    {% endif %}
+
+</body>
+
+</html>

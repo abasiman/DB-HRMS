@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Employee</title>
+    <link rel="stylesheet" href="{% static 'emp_styles.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Insert Employee</h2>
+        <form id="insertEmployeeForm">
+            {% csrf_token %}
+            <label for="tuid">Employee ID:</label>
+            <input type="text" id="tuid" name="tuid" required>
+
+            <label for="tfname">First Name:</label>
+            <input type="text" id="tfname" name="tfname" required>
+
+            <label for="tlname">Last Name:</label>
+            <input type="text" id="tlname" name="tlname" required>
+
+            <label for="tucontact">Contact Info:</label>
+            <input type="text" id="tucontact" name="tucontact" required>
+
+            <label for="tudate">Hire Date:</label>
+            <input type="date" id="tudate" name="tudate" required>
+
+            <label for="tudepartment">Department:</label>
+            <input type="text" id="tudepartment" name="tudepartment" required>
+
+            <label for="tujob">Job Title:</label>
+            <input type="text" id="tujob" name="tujob" required>
+
+            <button type="button" onclick="submitInsertEmployeeForm()">Submit</button>
+        </form>
+    </div>
+
+    <script src="{% static 'employee_script.js' %}"></script>
+</body>
+
+</html>
